@@ -39,13 +39,11 @@ class PolyTreeNode
 
   def add_child(child_node)
     child_node.parent = self
-    @children << child_node unless @children.include?(child_node)
   end
 
   def remove_child(child_node)
     raise "Error" unless @children.include?(child_node)
     child_node.parent = nil
-    @children.delete(child_node)
   end
 
   def dfs(target)
@@ -54,19 +52,21 @@ class PolyTreeNode
 
     @children.each do |child|
 
-      node = child.dfs(target)
-      return node unless node.nil?
+       node = child.dfs(target)
+       return node if node
+
     end
-    return nil
+    nil
   end
 
   def bfs(target)
     queue = [self]
     until queue.empty?
       current_node = queue.shift
-      return current_node if target == current_node.value
+      return current_node if current_node.value == target
       queue += current_node.children
     end
+
     nil
   end
 
